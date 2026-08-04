@@ -1,0 +1,2347 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAMBANOIR – Strike Hard, Strike Fast</title>
+
+<link rel="canonical" href="https://mambanoir.sk/de/">
+<link rel="alternate" hreflang="sk" href="https://mambanoir.sk/">
+<link rel="alternate" hreflang="de" href="https://mambanoir.sk/de/">
+<link rel="alternate" hreflang="en" href="https://mambanoir.sk/en/">
+<link rel="alternate" hreflang="es" href="https://mambanoir.sk/es/">
+<link rel="alternate" hreflang="fr" href="https://mambanoir.sk/fr/">
+<link rel="alternate" hreflang="it" href="https://mambanoir.sk/it/">
+<link rel="alternate" hreflang="x-default" href="https://mambanoir.sk/">
+
+<link rel="icon" type="image/png" href="../obrazky/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #080808;
+    --dark: #111111;
+    --card: #161616;
+    --border: rgba(255,255,255,0.08);
+    --white: #ffffff;
+    --off-white: #c8c8c8;
+    --muted: #666666;
+  }
+  html { scroll-behavior: smooth; max-width: 100%; overflow-x: hidden; position: relative; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+	position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+
+  /* ===== Navigation ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: rgba(8,8,8,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+	width: 100%;
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo-tm {
+    font-size: 0.35em; /* Verkleinert das Logo auf 35 % seiner Originalgröße */
+    vertical-align: super; /* Verschiebt das Logo über den Text */
+    margin-left: 2px; /* Leichter Einzug vom letzten Buchstaben */
+    font-family: sans-serif; /* Verwendet klare Linien für das Symbol */
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nav-links a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  
+  
+   /* ===== SPRACHE AUSWAHLMENÜ AUF MOBILGERÄTEN ===== */
+
+  .mobile-lang-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  .mobile-lang-divider {
+	width: 40px;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.15);
+	margin-bottom: 1.5rem;
+  }
+
+   .mobile-flags-row {
+	display: flex;
+	gap: 1.5rem;
+  }
+
+  .mobile-flag-link {
+    font-size: 2.2rem !important;
+	text-decoration: none;
+	opacity: 0.4;
+	transition: 0.3s ease;
+  }
+
+  .mobile-flag-link.active {
+	opacity: 1;
+	transform: scale(1.1);
+	}
+
+  /* Ausblenden unnötiger Elemente im mobilen Header */
+	@media (max-width: 899px) {
+		.nav-links, .lang-selector, .nav-cta {
+			display: none !important;
+		}
+		.nav-hamburger {
+			display: flex;
+		}
+	}
+  /* Korrektur für die rechte Navigation auf dem PC */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Abstand zwischen Flagge und weißem Button */
+    flex-direction: row; /* Ordnet sie nebeneinander an */
+  }
+
+  
+  /* ===== SPRACHE AUSWAHLMENÜ AUF DEM PC ===== */
+  .lang-selector { 
+	position: relative; 
+	display: inline-block; }
+  
+  .lang-toggle {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--off-white);
+    background: none; border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.6rem 1rem; cursor: pointer; border-radius: 2px;
+	filter: drop-shadow(0 0 2px rgba(255, 255, 255, 255));
+  }
+  .lang-dropdown {
+    position: absolute; top: 100%; right: 0;
+    background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(15px);
+    border: 1px solid var(--border); min-width: 180px;
+    list-style: none; margin-top: 0.5rem;
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: all 0.3s ease; z-index: 1000;
+  }
+  .lang-option .lang-flag {
+    background: #5B5A60;  /* Sehr dezenter Hintergrund beim Klicken auf die Flaggenauswahl */
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+	font-size: 1.1rem;
+  }
+  .lang-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-dropdown a {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.9rem 1.25rem; color: var(--off-white);
+    text-decoration: none; font-size: 0.8rem; transition: 0.2s;
+  }
+  .lang-dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+
+  .nav-cta {
+    background: var(--white); color: var(--black);
+    border: none; padding: 0.7rem 1.4rem;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; transition: transform 0.2s;
+  }
+  .nav-cta:hover { transform: scale(1.05); }
+  
+  .light-mode .lang-dropdown a { 
+    color: #ffffff !important;  /* Farben des angeklickten Sprachmenüs im hellen Modus */
+  }
+  .light-mode .lang-dropdown {
+    background: #5B5A60 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+ }
+ .light-mode .lang-toggle {
+    background: #9E9DA1;
+    border-color: rgba(0,0,0,0.2);
+ }
+  
+  
+  /* Hamburger */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px;
+    background: none;
+    border: none;
+	z-index: 101;
+	margin-left: auto;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--white);
+    transition: all 0.3s ease;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  
+
+  /* Mobile Menü */
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(8,8,8,0.98);
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-mobile-menu a:hover { opacity: 0.5; }
+  .nav-mobile-cta {
+    margin-top: 1rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: none;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+  }
+
+
+  /* ===== HELDENABSCHNITT ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+  }
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    display: none;
+    justify-content: space-evenly;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-bg-lines span {
+    width: 1px;
+    height: 100%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+    position: relative;
+    z-index: 1;    
+    max-width: 100%;
+    line-height: 1.5;
+}
+  .hero-logo-img {
+    width: min(320px, 70vw);
+    height: min(320px, 70vw);
+    object-fit: contain;
+    margin-bottom: 2rem;
+    mix-blend-mode: lighten;
+    animation: fadeUp 0.9s 0.1s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 12vw, 9.5rem);
+    letter-spacing: 0.04em;
+    line-height: 0.92;
+    text-transform: uppercase;
+    color: var(--white);
+    animation: fadeUp 1s 0.2s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-slash { display: block; }
+  .hero-tagline {
+    margin-top: 2rem;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    animation: fadeUp 1s 0.35s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-actions {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s 0.5s ease both;
+    position: relative;
+    z-index: 10;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUp 1s 0.9s ease both;
+    z-index: 5;
+  }
+  
+
+  /* ===== Schaltflächen ===== */
+  .btn-primary {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: 1px solid var(--white);
+    padding: 0.85rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: transparent; color: var(--white); }
+  .btn-outline {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.85rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--white); }
+
+
+
+  /* ===== SCROLL-INDIKATOR ===== */
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+    animation: scrollPulse 2s infinite;
+  }
+  .scroll-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+
+
+  /* ===== MANIFEST ===== */
+  .manifesto {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 3rem);
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .section-label::before, .section-label::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+  }
+  .manifesto-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .manifesto-text em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+  }
+  .manifesto-sub {
+    margin-top: 2rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--off-white);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  /* ===== TEILER ===== */
+  .divider {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 1px;
+    border-bottom: 2px solid #9F9F9F !important
+}
+
+
+  /* ===== SÄULEN ===== */
+  .pillars {
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem) clamp(4rem, 8vw, 8rem);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pillars-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .pillar {
+    flex: 1 1 280px;
+    background: var(--dark);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2rem);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    border-right: 1px solid var(--border);
+    box-sizing: border-box;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar:hover { background: var(--card); }
+  .pillar-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .pillar-icon {
+    width: 32px;
+    height: 2px;
+    background: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .pillar-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .pillar-text {
+    font-size: clamp(0.82rem, 1.5vw, 0.88rem);
+    line-height: 1.7;
+    color: var(--off-white);
+  }
+
+  
+  @media (max-width: 600px) {
+    .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+    .pillar:last-child { border-bottom: none; }
+  }
+
+
+
+  /* ===== PRODUKTE ===== */
+  .products {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .products-inner { max-width: 1200px; margin: 0 auto; }
+  .products-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .products-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+  }
+  .products-title span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+  }
+  .products-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    max-width: 280px;
+    text-align: right;
+    line-height: 1.6;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .product-card {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3vw, 2rem);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .product-card:hover { border-color: rgba(255,255,255,0.25); }
+  .product-card.coming-soon::after {
+    content: 'COMING SOON';
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.6rem;
+  }
+  .product-icon {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    color: rgba(255,255,255,0.08);
+  }
+  .product-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .product-desc {
+    font-size: clamp(0.78rem, 1.5vw, 0.82rem);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  
+  
+
+  /* ===== MATERIAL TIEFGANG ===== */
+  .material-deep-dive {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    background: radial-gradient(circle at center, #161616 0%, #080808 100%);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .material-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .material-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 300px;
+    background: rgba(255,255,255,0.03);
+    filter: blur(100px);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .material-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    text-transform: uppercase;
+    font-weight: 900;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+  }
+  .material-title span {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+  }
+  .material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+  .material-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .material-item h4::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .material-item p {
+    font-size: clamp(0.82rem, 1.5vw, 0.9rem);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+
+
+  /* ===== ABSCHNITTSÜBERSCHRIFTTEXT ===== */
+  .section-divider-text {
+    padding: clamp(4rem, 9vw, 9rem) 2rem;
+    text-align: center;
+    background: #080808;
+    border-top: 1px solid rgba(255,255,255,0.03);
+  }
+  .section-divider-text p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(0.9rem, 3vw, 2.5rem);
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.1);
+    text-transform: uppercase;
+  }
+
+
+
+  /* ===== WARTELISTE ===== */
+  .waitlist {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .waitlist-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .waitlist-sub {
+    font-size: clamp(0.82rem, 2vw, 0.9rem);
+    color: var(--off-white);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .waitlist-form {
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto 1rem;
+    flex-wrap: nowrap;
+  }
+  .waitlist-input {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.9rem 1.2rem;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .waitlist-input:focus { border-color: rgba(255,255,255,0.35); }
+  .waitlist-input::placeholder { color: var(--muted); }
+  .waitlist-btn {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .waitlist-btn:hover { opacity: 0.85; }
+  .waitlist-note {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .success-msg {
+    display: none;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+
+
+
+  /* ===== FUSSZEILE ===== */
+  .footer-wrapper {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    margin-top: 4rem;
+  }
+  .footer-socials {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) clamp(3rem, 5vw, 4.5rem);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-socials-label {
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+  .footer-socials-grid {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .footer-social-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1.4rem, 3vw, 2.2rem);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    color: var(--off-white);
+    text-decoration: none;
+    min-width: 100px;
+    transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.2s;
+  }
+  .footer-social-btn:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: var(--white);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-3px);
+  }
+  .footer-social-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+  .footer-social-btn span {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .footer-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-brand-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .footer-brand-desc {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+    max-width: 280px;
+  }
+  .footer-brand-slogan {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+  }
+  .footer-col-title {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .footer-nav-list a {
+    font-size: 0.85rem;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+    display: block;
+  }
+  .footer-nav-list a:hover { color: var(--white); padding-left: 6px; }
+  .footer-contact-email {
+    font-size: 0.85rem;
+    color: var(--off-white);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.8rem;
+    transition: color 0.2s;
+    word-break: break-all;
+  }
+  .footer-contact-email:hover { color: var(--white); }
+  .footer-contact-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.8rem clamp(1.5rem, 4vw, 3rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .footer-bottom-left {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .footer-bottom-right {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.13);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-bottom-right:hover { color: rgba(255,255,255,0.6); }
+  .footer-bottom-right span { font-weight: 700; }
+
+  /* Formatvorlagen für Rechtslinks in der Fußzeile */
+  .footer-legal-links {
+    display: flex;
+    gap: 1.5rem; /* Abstand zwischen den Links */
+    flex-wrap: wrap;
+  }
+
+  .footer-legal-links a {
+    font-size: 0.7rem;
+    color: var(--off-white); /* In einer dunklen Schriftart wird es hell sein */
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: var(--white); /* Der Link wird weiß, wenn man mit der Maus darüberfährt */
+  }
+
+  /* Hier werden die Links NUR dann schwarz sein, wenn die gesamte Fußzeile weiß wird (falls sie überhaupt weiß wird): */
+  body.light-mode .footer-legal-links a {
+    color: #000000; 
+  }
+  
+  /* --- MODALFENSTER FÜR RECHTSDOKUMENTE --- */
+  .legal-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .legal-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .legal-modal-content {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    text-align: center;
+  }
+
+  .legal-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--off-white);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .legal-modal-close:hover {
+    color: var(--white);
+  }
+
+  .legal-modal-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 15px;
+    color: var(--white);
+  }
+
+  .legal-modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--off-white);
+  }
+
+  /* ===== ANIMATIONEN ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Neue Stile für Rechtslinks in der Fußzeile */
+  .footer-legal-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .footer-legal-links a {
+    font-size: 0.7rem;
+    color: #666666; /* Korrektur: Fest eingestelltes Grau, nicht vom Hellmodus beeinflusst */
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s ease;
+  }
+  .footer-legal-links a:hover {
+    color: var(--white); /* Wird beim Aufruf weiß */
+  }
+
+  /* ===== RESPONSIVE BREAKPOINTS ===== */
+
+  @media (max-width: 1100px) {
+    .footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+
+
+/* Tablet-Hochformat & Mobilgeräte allgemein */
+@media (max-width: 899px) {
+    nav { 
+        padding: 1rem 1.5rem;
+        justify-content: space-between; /* Dadurch wird sichergestellt, dass sich das Logo links und das Menü rechts befindet. */
+    }
+    .nav-links, .nav-cta { 
+        display: none !important; /* Desktop-Elemente werden fest ausgeblendet */
+    }
+    .nav-hamburger { 
+        display: flex; 
+    }
+
+    .hero { padding: 7rem 1.5rem 5rem; }
+
+    .pillars-grid { flex-direction: column; }
+    .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+    
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+
+/* Mobile Specific (< 600px) */
+@media (max-width: 599px) {
+    /* FIX FÜR DEN SCHUTZ: */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+	.hero-eyebrow {
+        font-size: 0.75rem !important;       
+        letter-spacing: 0.15em !important;   
+        margin-bottom: 1.5rem !important;    
+        
+        
+        max-width: 75% !important;           
+        margin-left: auto !important;        
+        margin-right: auto !important;      
+        line-height: 1.4 !important;        
+    }
+	.products-header {
+        flex-direction: column !important; 
+        align-items: center !important;    
+        text-align: center !important;     
+        margin-bottom: 3rem !important;    
+        gap: 1rem !important;
+    }
+
+    .products-title {
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    .products-note {
+        text-align: center !important;     
+        max-width: 85% !important;         
+        margin-left: auto !important;      
+        margin-right: auto !important;     
+        font-size: 0.9rem !important;      
+    }
+	.product-card.coming-soon::after {
+		top: 1.5rem !important;     
+		right: 1.1rem !important;   
+		font-size: 0.5rem !important; 
+		padding: 0.25rem 0.5rem !important;
+	}
+	
+	
+    .footer-legal-links {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: flex-start !important; 
+        gap: 0.8rem !important;            
+        margin-bottom: 2.3rem !important; 
+		margin-top: 1.3rem !important;
+        width: 100% !important;
+    }
+
+    
+    .footer-legal-links a {
+        font-size: 0.8rem !important;      
+        letter-spacing: 0.05em !important;
+        text-align: left !important;        
+        display: block !important;
+    }
+
+    
+    .footer-bottom {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important; 
+        text-align: left !important;
+    }
+	
+	.hero-scroll {bottom: 0.5rem;}
+    .hero-title { font-size: clamp(3rem, 15vw, 5rem); }
+	.hero-actions {margin-bottom: 4rem; /* Erzeugt Abstand zwischen Schaltflächen und Scrollleiste */}
+    
+    .waitlist-form { flex-direction: column; }
+    .waitlist-input { border-right: 1px solid var(--border); border-bottom: none; }
+    .waitlist-btn { width: 100%; }
+
+    .footer-main { grid-template-columns: 1fr; }
+    
+    /* Korrektur der Überschrift zum Thema Baumwolle */
+    .material-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+}
+
+
+
+/* Sehr kleine Bildschirme (< 400px) */
+@media (max-width: 400px) {
+    .nav-logo {
+        font-size: 1.1rem; /* Verkleinere das Logo, damit es nicht mit dem Hamburger kollidiert */
+    }
+    .hero-title {
+        font-size: 2.8rem;
+    }
+}
+
+
+/* Definition von hellen Farben */
+body.light-mode {
+    --black: #ffffff;      /* Der Hintergrund wird weiß sein */
+    --dark: #f5f5f5;       /* Abschnitte werden leicht ausgegraut */
+    --card: #eeeeee;
+    --border: #000000;
+    --white: #080808;      /* Der Text wird schwarz sein */
+    --off-white: #444444;
+    --muted: #888888;
+}
+body.light-mode nav {
+    background: #B3B3B3;          /* Mattes, mittleres Hellgrau */
+    backdrop-filter: none;        /* Bei mattem Grau ist kein Weichzeichnen nötig, es sieht sauberer aus */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Weicher Schatten für Tiefe */
+}
+
+body.light-mode .nav-logo {
+    color: #080808;
+}
+
+body.light-mode .nav-links a {
+    color: #222222;               /* Kräftigeres Schwarz für einen matten Hintergrund */
+    font-weight: 500;
+}
+
+body.light-mode .nav-links a:hover {
+    color: #000000;
+}
+
+
+
+/* Der Knopf ist schwarz gelassen, damit er sich vom matten Grau abhebt */
+body.light-mode .nav-cta {
+    background: #080808;
+    color: #ffffff;
+}
+
+
+
+/* Das mobile Menü wird an das gleiche matte Grau angepasst */
+body.light-mode .nav-mobile-menu {
+    background: #e0e0e0;
+}
+
+
+/* Spezielle Elemente für den Lichtmodus modifizieren */
+
+body.light-mode .hero-bg-lines span { background: rgba(0,0,0,0.05); }
+body.light-mode .scroll-line { background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2)); }
+body.light-mode .nav-mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .hero-logo-img { mix-blend-mode: multiply; } /* Damit das Logo auf weißem Hintergrund kein Quadrat bildet */
+
+
+
+/* Schalterstil (Lichtschalter) */
+.theme-switch {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--border);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.theme-switch:hover { transform: scale(1.1); }
+
+body.light-mode .hero-eyebrow {
+    color: #333333; /* Dunkelgrau für gute Lesbarkeit */
+    font-weight: 570; /* Die Textstärke wurde dezent erhöht, damit der Text auf hellem Hintergrund nicht verschwindet. */
+}
+body.light-mode .btn-outline {
+    border: 1px solid #111111; /* Schwarzer Rand */
+    background: #B3B3B3;        /* Weiche, matte graue Füllung */
+    color: #111111;             /* Schwarze Schrift */
+}
+
+body.light-mode .btn-outline:hover {
+    background: #cccccc;        /* Beim Überfahren mit der Maus etwas dunkleres Grau */
+}
+
+
+/* Scrollanimation sichtbar machen (blinkende Linie) */
+body.light-mode .scroll-line {
+    background: linear-gradient(to bottom, transparent, rgba(5, 1, 2, 0.7));
+}
+
+body.light-mode .scroll-label {
+    color: #030202;
+}
+
+
+/* Lesbarkeit des Textes "Du bist nicht hier, um hart auszusehen..." verbessern */
+body.light-mode .manifesto-text {
+    color: #080808; /* Von Weiß nach Schwarz */
+	
+}
+
+body.light-mode .manifesto-text em {
+    -webkit-text-stroke: 1px #080808; /* Gliederung für hervorgehobene Wörter */
+    color: #C2C2C2;
+}
+
+body.light-mode .manifesto-sub {
+    color: #000000; /* Manifest-Untertitel in Dunkelgrau */
+}
+
+
+
+
+/* Säulenabschnitt (01, 02, 03) im Lichtmodus korrigieren */
+
+body.light-mode .pillar {
+    background: #C0C0C0;            /* Hellgrauer Hintergrund für Karten */
+    border: 1px solid rgba(0, 0, 0, 0.18); /* Weiche Kontur */
+}
+
+body.light-mode .pillar:hover {
+    background: #e0e0e0;            /* Leichte Abdunklung beim Überfahren mit der Maus */
+}
+
+body.light-mode .pillar-num {
+    color: rgba(0, 0, 0, 0.05);     /* Große Zahlen im Hintergrund (sehr hellgrau) */
+}
+
+body.light-mode .pillar-title {
+    color: #080808;                 /* Schwarze Überschrift (z. B. Gesund für den Körper) */
+}
+
+body.light-mode .pillar-text {
+    color: #030202;                 /* Dunkelgrauer Haupttext */
+}
+
+body.light-mode .pillar-icon {
+    background: #080808;            /* Schwarze Linie/Symbol */
+}
+
+
+body.light-mode .pillars-grid {
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .section-label {
+    color: #1a1a1a; 
+    font-weight: 600; 
+}
+body.light-mode .section-label::before, 
+body.light-mode .section-label::after {
+    background: #1a1a1a; 
+    opacity: 0.8;        
+}
+
+
+body.light-mode .features-section,
+body.light-mode #features,
+body.light-mode .cotton-section { 
+    background: #ffffff !important; 
+    color: #111111 !important;
+}
+
+body.light-mode .features-title,
+body.light-mode .features-section h2 {
+    color: #000000 !important;
+}
+
+
+body.light-mode .feature-item,
+body.light-mode .feature-card {
+    background: transparent !important;
+}
+
+body.light-mode .feature-item h3 {
+    color: #000000 !important;
+}
+
+body.light-mode .feature-item p {
+    color: #444444 !important;
+}
+
+
+body.light-mode .closing-statement,
+body.light-mode .bottom-banner {
+    background: #f5f5f5 !important;
+    color: #111111 !important;
+}
+
+
+body.light-mode .products {
+    background: #ffffff !important;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .product-card {
+    background: #f9f9f9 !important;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .material-deep-dive {
+    background: #989696 !important; 
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .material-title {
+    color: #000000 !important;
+}
+
+body.light-mode .material-item h4 {
+    color: #000000 !important;
+}
+
+body.light-mode .material-item h4::before {
+    background: #000000 !important; 
+}
+
+body.light-mode .material-item p {
+    color: #000000 !important;
+}
+
+body.light-mode .section-divider-text {
+    background: #575555 !important;
+	border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-mode .section-divider-text p {
+    color: #888888 !important; 
+}
+
+body.light-mode .footer-wrapper {
+    background: #f5f5f5 !important;
+}
+
+body.light-mode .footer-brand-name,
+body.light-mode .footer-col-title {
+    color: #000000 !important;
+}
+body.light-mode .material-title span {
+    -webkit-text-stroke: 1px #000000 !important; 
+    color: #000000 !important;              
+    opacity: 1 !important;
+}
+body.light-mode .material-title span {
+    -webkit-text-stroke: 1px #000000 !important; 
+    color: rgba(0, 0, 0, 0.2) !important; 
+}
+
+body.light-mode .products {
+    background: #9A9898 !important; 
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+body.light-mode .products-title {
+    color: #000000 !important;
+}
+
+body.light-mode .products-title span {
+    -webkit-text-stroke: 1px #000000 !important;
+    color: #C6C6C6 !important; 
+}
+
+
+body.light-mode .product-card {
+    background: #ffffff !important; 
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); 
+}
+
+body.light-mode .product-name {
+    color: #000000 !important;
+		
+}
+
+body.light-mode .product-desc {
+    color: #444444 !important;
+	
+}
+
+body.light-mode .product-icon {
+    background: #C0C0C0 !important;
+    color: rgba(0, 0, 0, 0.2) !important;
+	
+}
+
+body.light-mode .product-card.coming-soon::after {
+    color: #040303 !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    background: #f0f0f0;
+}
+body.light-mode .products p {
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+
+body.light-mode .waitlist {
+    position: relative; 
+    background: transparent !important; 
+}
+
+body.light-mode .waitlist::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100%; 
+    right: -100%; 
+    background: #575555 !important; 
+    z-index: -1; 
+}
+
+body.light-mode .waitlist-title { color: #000000 !important; }
+body.light-mode .waitlist-sub { color: #dddddd !important; }
+body.light-mode .waitlist-input { background: #ffffff !important; color: #000000 !important; }
+body.light-mode .waitlist-btn { background: #000000 !important; color: #ffffff !important; }
+
+body.light-mode .waitlist-note {
+    color: #ffffff !important;
+    opacity: 0.8; 
+}
+
+body.light-mode .footer-socials {
+    position: relative;
+    background: transparent !important; 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .footer-socials::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw; 
+    background: #888585 !important; 
+    z-index: -1;
+}
+
+body.light-mode .footer-wrapper {
+    position: relative;
+    background: transparent !important;
+}
+
+body.light-mode .footer-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw;
+    background: #888585 !important; 
+    z-index: -1;
+}
+
+body.light-mode .footer-bottom {
+    position: relative;
+    background: transparent !important;
+}
+
+body.light-mode .footer-bottom::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw;
+    background: #888585 !important;
+    z-index: -1;
+}
+
+
+body.light-mode .footer-brand-name, 
+body.light-mode .footer-col-title { color: #000000 !important; }
+body.light-mode .footer-nav-list a, 
+body.light-mode .footer-contact-email { color: #000000 !important; }
+body.light-mode .footer-social-btn { color: #000000 !important; border-color: color: #000000 !important; }
+
+
+body.light-mode .footer-bottom-left,
+body.light-mode .footer-bottom-right,
+body.light-mode .footer-bottom-right span {
+    color: #000000 !important;
+    opacity: 1 !important; 
+}
+
+body.light-mode .waitlist {
+    margin-bottom: 1 !important;
+    padding-bottom: 4rem !important; 
+}
+body.light-mode .footer-socials {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+}
+
+body.light-mode .footer-wrapper {
+    margin-top: 0 !important;
+}
+
+body.light-mode .footer-socials-label,
+body.light-mode .footer-brand-name,
+body.light-mode .footer-col-title,
+body.light-mode .footer-brand-desc,
+body.light-mode .footer-brand-slogan,
+body.light-mode .footer-nav-list a,
+body.light-mode .footer-contact-email,
+body.light-mode .footer-contact-note,
+body.light-mode .footer-bottom-left,
+body.light-mode .footer-bottom-right,
+body.light-mode .footer-bottom-right span {
+    color: #000000 !important; 
+    opacity: 1 !important;     
+}
+
+body.light-mode .footer-social-btn span {
+    color: #000000 !important;
+}
+
+body.light-mode .footer-nav-list a:hover,
+body.light-mode .footer-contact-email:hover {
+    color: #cccccc !important; 
+}
+
+body.light-mode .footer-social-btn {
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important; 
+    background-color: rgba(255, 255, 255, 0.05) !important; 
+    transition: all 0.3s ease;
+}
+
+body.light-mode .footer-social-btn:hover {
+    border-color: #ffffff !important; 
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.light-mode .hero::before,
+body.light-mode .hero::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    width: 280px !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    opacity: 0.3 !important;
+    background-image: 
+        linear-gradient(135deg, #000 25%, transparent 25%), 
+        linear-gradient(225deg, #000 25%, transparent 25%), 
+        linear-gradient(45deg, #000 25%, transparent 25%), 
+        linear-gradient(315deg, #000 25%, transparent 25%) !important;
+    background-position: 10px 0, 10px 0, 0 0, 0 0 !important;
+    background-size: 20px 20px !important;
+    background-repeat: repeat !important;
+}
+
+body.light-mode .hero::before { left: 0 !important; -webkit-mask-image: linear-gradient(to right, black, transparent) !important; }
+body.light-mode .hero::after { right: 0 !important; -webkit-mask-image: linear-gradient(to left, black, transparent) !important; 
+
+}
+
+.hero-scroll {
+    position: absolute !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: auto !important; 
+}
+
+body.light-mode .hero {
+    border-bottom: 1px solid #9F9F9F !important; 
+    box-sizing: border-box !important;
+}
+
+body:not(.light-mode) .hero {
+    border-bottom: 1px solid var(--border) !important; 
+    position: relative;
+}
+
+body:not(.light-mode) .hero::before,
+body:not(.light-mode) .hero::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important; 
+    width: 280px !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    opacity: 0.04 !important; 
+    
+    background-image: 
+        linear-gradient(135deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(225deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(45deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(315deg, #ffffff 25%, transparent 25%) !important;
+    background-position: 10px 0, 10px 0, 0 0, 0 0 !important;
+    background-size: 20px 20px !important;
+    background-repeat: repeat !important;
+}
+
+body:not(.light-mode) .hero::before { 
+    left: 0 !important; 
+    -webkit-mask-image: linear-gradient(to right, black, transparent) !important; 
+}
+body:not(.light-mode) .hero::after { 
+    right: 0 !important; 
+    -webkit-mask-image: linear-gradient(to left, black, transparent) !important; 
+}
+
+@media (max-width: 767px) {
+    body.light-mode .hero::before,
+    body.light-mode .hero::after,
+    body:not(.light-mode) .hero::before,
+    body:not(.light-mode) .hero::after {
+        width: 60px !important; 
+        opacity: 0.08 !important; 
+    }
+
+    .hero-eyebrow, 
+    .hero-logo-img, 
+    .hero-title, 
+    .hero-tagline, 
+    .hero-actions {
+        position: relative;
+        z-index: 2;
+}
+
+body.light-mode .footer-wrapper {
+    color: #666666 !important; 
+}
+
+body.light-mode .footer-brand-desc,
+body.light-mode .footer-contact-note,
+body.light-mode .footer-bottom-left {
+    color: #000000 !important; 
+}
+
+body.light-mode .footer-nav-list a,
+body.light-mode .footer-contact-email {
+    color: #000000 !important; 
+}
+
+body.light-mode .footer-nav-list a:hover {
+    color: #000000 !important; 
+}
+
+body.light-mode .footer-col-title {
+    color: #FFF6E5 !important;
+    border-bottom-color: #000000 !important;
+
+}
+
+.lang-dropdown {
+  position: relative;
+  margin-left: auto; 
+  margin-right: 30px; 
+  display: inline-block;
+}
+
+.lang-current {
+  background: rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem; 
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  overflow: hidden; 
+}
+
+.lang-options a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  padding: 12px 15px;
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; 
+  transition: background 0.2s;
+}
+
+.lang-options a:hover {
+  background-color: #1a1a1a;
+}
+
+.lang-dropdown:hover .lang-options {
+  display: flex;
+  flex-direction: column; 
+}
+
+.lang-current span, .lang-options span {
+  font-size: 2.6rem;
+}
+
+</style>
+
+</head>
+<body>
+<button class="theme-switch" id="themeToggle" aria-label="Schaltmodus">
+  <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+
+<!--Navigation mit Sprachumschaltung-->
+<nav>
+  <a href="#home" class="nav-logo" onclick="closeMenu()">MAMBANOIR<sup class="logo-tm">&trade;</sup></a>
+  <ul class="nav-links">
+    <li><a href="#about">Über uns</a></li>
+    <li><a href="#products">Produkte</a></li>
+    <li><a href="#waitlist">Waitlist</a></li>
+	<li><a href="#contact">Kontakt</a></li>
+  </ul>
+  
+  <div class="nav-right">
+  <div class="lang-selector">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
+      <span class="lang-flag" id="langFlag">🇩🇪</span>
+      <span class="lang-arrow">▼</span>
+    </button>
+    <ul class="lang-dropdown" id="langDropdown">
+      <li><a href="index.html" class="lang-option active" data-lang="de" onclick="switchLanguage('de', event)"><span class="lang-flag">🇩🇪</span> Deutsch</a></li>
+      <li><a href="../fr/index.html" class="lang-option" data-lang="fr" onclick="switchLanguage('fr', event)"><span class="lang-flag">🇫🇷</span> Français</a></li>
+      <li><a href="../en/index.html" class="lang-option" data-lang="en" onclick="switchLanguage('en', event)"><span class="lang-flag">🇬🇧</span> English</a></li>
+      <li><a href="../it/index.html" class="lang-option" data-lang="it" onclick="switchLanguage('it', event)"><span class="lang-flag">🇮🇹</span> Italiano</a></li>
+      <li><a href="../index.html" class="lang-option" data-lang="sk" onclick="switchLanguage('sk', event)"><span class="lang-flag">🇸🇰</span> Slovenčina</a></li>
+      <li><a href="../es/index.html" class="lang-option" data-lang="es" onclick="switchLanguage('es', event)"><span class="lang-flag">🇪🇸</span> Español</a></li>
+    </ul>
+  </div>
+
+  <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+    Registrieren
+  </button>
+</div>
+  
+  <button class="nav-hamburger" id="hamburger" aria-label="Speisekarte" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+
+<!-- Mobile Vollbildmenü -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">Über uns</a>
+  <a href="#products" onclick="closeMenu()">Produkte</a>
+  <a href="#waitlist" onclick="closeMenu()">Waitlist</a>
+  <a href="#contact" onclick="closeMenu()">Kontakt</a>
+  
+  <button class="nav-mobile-cta" onclick="closeMenu(); document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+    Registrieren
+  </button>
+
+  <div class="mobile-lang-container">
+    <div class="mobile-lang-divider"></div>
+    <div class="mobile-flags-row">
+      <a href="../fr/index.html" onclick="changeLanguage('fr', event)" class="mobile-flag-link">🇫🇷</a>
+      <a href="../en/index.html" onclick="changeLanguage('en', event)" class="mobile-flag-link">🇬🇧</a>
+      <a href="../it/index.html" onclick="changeLanguage('it', event)" class="mobile-flag-link">🇮🇹</a>
+      <a href="../es/index.html" onclick="changeLanguage('es', event)" class="mobile-flag-link">🇪🇸</a>
+	  <a href="../index.html" onclick="changeLanguage('sk', event)" class="mobile-flag-link">🇸🇰</a>
+      <a href="index.html" class="mobile-flag-link active">🇩🇪</a>
+    </div>
+  </div>
+</div>
+
+
+<!--Abschnittsheld-->
+<section class="hero" id="home">
+  <div class="hero-bg-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p class="hero-eyebrow">Fitness Apparel · 100% Baumwolle · Premium Qualität</p>
+  <img src="../obrazky/logo.webp" alt="MAMBANOIR logo" class="hero-logo-img">
+  <h1 class="hero-title">MAMBA<span class="hero-slash">NOIR</span></h1>
+  <p class="hero-tagline">Strike Hard, Strike Fast</p>
+  <div class="hero-actions">
+    <a href="#products" class="btn-primary">Kollektion ansehen</a>
+    <a href="#waitlist" class="btn-outline">Launch verfolgen</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+<section class="manifesto reveal" id="about">
+  <div class="section-label">Manifesto</div>
+  <p class="manifesto-text">Du bist nicht hier, um hart zu <em>wirken</em>.<br>Du bist hier, um hart zu <em>sein</em>.</p>
+  <p class="manifesto-sub">MAMBANOIR wurde für Menschen geschaffen, die ernsthaft trainieren. Kleidung aus 100% Baumwolle, die bei jeder Bewegung atmet, die Haut nicht reizt und nicht am Körper klebt. Keine Synthetik. Keine Ausreden.</p>
+</section>
+
+
+<!--Klassentrenner-->
+<div class="divider"></div>
+
+
+<!--Abschnitt Säulen (Tabelle)-->
+<section class="pillars reveal">
+  <div class="pillars-grid">
+    <div class="pillar">
+      <span class="pillar-num">01</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">100% ringgesponnene gekämmte Baumwolle</h3>
+      <p class="pillar-text">Keine synthetischen Fasern, keine Hautirritationen. Reine Baumwolle für maximale Atmungsaktivität und Komfort beim Training.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">02</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">Gesund für den Körper</h3>
+      <p class="pillar-text">Unsere Materialien enthalten keine chemischen Behandlungen, die beim Schwitzen in den Körper gelangen könnten. Maximale Leistung, null Risiko für deine Haut.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">03</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">Identität, nicht nur ein T-Shirt</h3>
+      <p class="pillar-text">MAMBANOIR ist eine Lebenseinstellung. Jedes Stück trägt eine Geschichte der Entschlossenheit. Kleidung für diejenigen, die hart zuschlagen und niemals aufhören.</p>
+    </div>
+  </div>
+</section>
+
+
+<!--Abschnitt Material vertiefen-->
+<section class="material-deep-dive reveal">
+  <div class="material-container">
+    <div class="material-content">
+      <h2 class="material-title">Ringgesponnene gekämmte<wbr> Baumwolle: <br><span>Dein neuer Standard</span></h2>
+      <div class="material-grid">
+        <div class="material-item">
+          <h4>0% Pilling</h4>
+          <p>Lange gekämmte Fasern sorgen für eine perfekt glatte Oberfläche, die auch nach 50 Wäschen gleich bleibt.</p>
+        </div>
+        <div class="material-item">
+          <h4>2x Höhere Festigkeit</h4>
+          <p>Die Ringdrehung verleiht dem Shirt eine Strapazierfähigkeit, die man bei normaler Baumwolle nicht findet. Es behält die Form, egal was du tust.</p>
+        </div>
+        <div class="material-item">
+          <h4>Maximale Atmungsaktivität</h4>
+          <p>Reine Baumwolle ohne Synthetik und chemische Rückstände. Deine Haut atmet selbst bei den härtesten Sätzen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--Trenntext-->
+<div class="section-divider-text">
+  <p>QUALITÄT, DIE NICHT WEICHT. DESIGN, DAS AUFFÄLLT.</p>
+</div>
+
+
+<!--Abschnitt Produkte Kollektionen-->
+<section class="products reveal" id="products">
+  <div class="products-inner">
+    <div class="products-header">
+      <h2 class="products-title">Erste<br><span>Kollektion</span></h2>
+      <p class="products-note">Launch in Vorbereitung. Registriere dich und erfahre es als Erster.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">MAMBA Classic Tee</p>
+        <p class="product-desc">Das Essential. Heavy Cotton, Oversize-Fit, Logo auf der Brust. Schwarz und Weiß.</p>
+      </div>
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">NOIR Strike Tee</p>
+        <p class="product-desc">Slogan auf dem Rücken, minimalistische Front. Für das Training und die Straße.</p>
+      </div>
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">VENOM Drop Tee</p>
+        <p class="product-desc">Drop-Shoulder-Schnitt, Schlangenmotiv. Limitierte Edition des ersten Drops.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--Warteliste für den Abschnitt-->
+<section class="waitlist reveal" id="waitlist">
+  <div class="section-label">Early Access</div>
+  <h2 class="waitlist-title">Sei der Erste.<br>Verpasse nicht den Launch.</h2>
+  <p class="waitlist-sub">Registriere deine E-Mail und erhalte eine Benachrichtigung, sobald wir den Verkauf starten. Kein Spam — nur eine E-Mail, wenn es losgeht.</p>
+  <div class="waitlist-form">
+    <input class="waitlist-input" type="email" id="emailInput" placeholder="deine@email.de" autocomplete="email">
+    <button class="waitlist-btn" onclick="submitWaitlist()">Ich will es wissen</button>
+  </div>
+  <div class="success-msg" id="successMsg">✓ &nbsp;Registriert. Wir melden uns bei dir.</div>
+  <p class="waitlist-note">Kein Spam. Abmeldung mit einem Klick.</p>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-wrapper reveal" id="contact">
+
+  <div class="footer-socials">
+    <span class="footer-socials-label">Folge uns in den sozialen Netzwerken</span>
+
+    <div class="footer-socials-grid">
+
+      <a href="https://www.instagram.com/mambanoirsk" target="_blank" class="footer-social-btn">
+	    <svg viewBox="0 0 24 24" fill="currentColor">
+		  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.75 2.25a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+	    </svg>
+	    <span>Instagram</span>
+	  </a>
+
+      <a href="https://www.tiktok.com/@mambanoirsk" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+        </svg>
+        <span>TikTok</span>
+      </a>
+
+      <a href="https://www.facebook.com/profile.php?id=61577462356881" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        <span>Facebook</span>
+      </a>
+
+      <a href="https://www.youtube.com/channel/UCZAGfc9f_-p97GtAKVr9IrA" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
+        <span>YouTube</span>
+      </a>
+
+    </div>
+  </div>
+
+
+  <div class="footer-main">
+
+    <div>
+      <span class="footer-brand-name">MAMBANOIR</span>
+
+      <p class="footer-brand-desc">
+        Fitnessbekleidung aus ringgesponnener Baumwolle für Menschen, 
+		die es ernst meinen. Keine Synthetik. Keine Kompromisse.
+      </p>
+
+      <span class="footer-brand-slogan">
+        Strike Hard, Strike Fast.
+      </span>
+    </div>
+
+
+    <div>
+      <p class="footer-col-title">Seite</p>
+
+      <ul class="footer-nav-list">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">Über uns</a></li>
+        <li><a href="#products">Produkte</a></li>
+        <li><a href="#waitlist">Waitlist</a></li>
+      </ul>
+    </div>
+
+
+    <div>
+      <p class="footer-col-title">Netzwerke</p>
+
+      <ul class="footer-nav-list">
+        <li><a href="https://www.instagram.com/mambanoirsk" target="_blank">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@mambanoirsk" target="_blank">TikTok</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61577462356881" target="_blank">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCZAGfc9f_-p97GtAKVr9IrA" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+
+
+    <div>
+	  <p class="footer-col-title">Kontakt</p>
+
+	  <!-- <a href="#" onclick="openLegalModal('Kontakt-E-Mail'); return false;" class="footer-contact-email">
+		info@mambanoir.sk
+	  </a> -->
+	  
+	  <a href="mailto:info@mambanoir.sk" class="footer-contact-email">
+        info@mambanoir.sk
+      </a>
+
+	  <p class="footer-contact-note">
+		Antwort innerhalb von 24 Stunden.<br>
+		Slowakische Republik.
+	  </p>
+	</div>
+	
+  </div>
+
+  <div class="footer-bottom">
+
+    <div class="footer-bottom-left">
+      © <span id="current-year"></span> MAMBANOIR · Alle Rechte vorbehalten
+    </div>
+
+
+    <div class="footer-legal-links">
+      <a href="#" onclick="openLegalModal('Allgemeine Geschäftsbedingungen'); return false;">
+        Allgemeine Geschäftsbedingungen
+      </a>
+
+      <a href="#" onclick="openLegalModal('Datenschutzerklärung'); return false;">
+        Datenschutzrichtlinie
+      </a>
+
+      <a href="#" onclick="openLegalModal('Reklamationsordnung'); return false;">
+        Beschwerderichtlinie
+      </a>
+    </div>
+
+
+    <a href="https://mawebstudio.netlify.app/" target="_blank" rel="noopener noreferrer" class="footer-bottom-right">
+	  Site by <span>Maroš Herman</span>
+	</a>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+    
+    const languageFlags = {
+        'fr': '🇫🇷',
+        'sk': '🇸🇰',
+        'en': '🇬🇧',
+        'it': '🇮🇹',
+        'de': '🇩🇪',
+        'es': '🇪🇸'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const sunIcon = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+        const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-mode');
+            if (themeIcon) themeIcon.innerHTML = sunIcon;
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                if (themeIcon) themeIcon.innerHTML = isLight ? sunIcon : moonIcon;
+            });
+        }
+
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        initLanguageUI();
+    });
+
+    function initLanguageUI() {
+        const path = window.location.pathname;
+        let currentLang = 'sk'; 
+
+        if (path.includes('/fr/')) currentLang = 'fr';
+        else if (path.includes('/en/')) currentLang = 'en';
+        else if (path.includes('/it/')) currentLang = 'it';
+        else if (path.includes('/de/')) currentLang = 'de';
+        else if (path.includes('/es/')) currentLang = 'es';
+        else currentLang = 'sk';
+
+        localStorage.setItem('selectedLanguage', currentLang);
+
+        const flag = document.getElementById('langFlag');
+        if (flag) flag.textContent = languageFlags[currentLang];
+        
+        document.querySelectorAll('.lang-option').forEach(option => {
+            if (option.getAttribute('data-lang') === currentLang) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+
+    function toggleLangDropdown() {
+        const dropdown = document.getElementById('langDropdown');
+        const toggle = document.getElementById('langToggle');
+        if (!dropdown || !toggle) return;
+        
+        dropdown.classList.toggle('active');
+        toggle.classList.toggle('active');
+        
+        const closeDropdown = (e) => {
+            if (!e.target.closest('.lang-selector')) {
+                dropdown.classList.remove('active');
+                toggle.classList.remove('active');
+                document.removeEventListener('click', closeDropdown);
+            }
+        };
+        document.addEventListener('click', closeDropdown);
+    }
+
+    function switchLanguage(lang, event) {
+        localStorage.setItem('selectedLanguage', lang);
+    }
+
+    const changeLanguage = switchLanguage;
+
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.getElementById('hamburger');
+        if (!menu || !btn) return;
+        menu.classList.toggle('open');
+        btn.classList.toggle('open');
+        document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.getElementById('hamburger');
+        if (!menu || !btn) return;
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function submitWaitlist() {
+        const input = document.getElementById('emailInput');
+        const msg = document.getElementById('successMsg');
+        if (!input || !msg) return;
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!re.test(input.value)) {
+            input.style.borderColor = '#ff5050';
+            setTimeout(() => { input.style.borderColor = ''; }, 1500);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('email', input.value);
+        fetch('send-email.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        input.parentElement.style.display = 'none';
+        msg.style.display = 'block';
+    }
+</script>
+
+<div id="legalModal" class="legal-modal">
+  <div class="legal-modal-content">
+    <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+    <div id="legalModalTitle" class="legal-modal-title"></div>
+    <div id="legalModalBody" class="legal-modal-body">
+      Wir arbeiten derzeit an den Inhalten. Der Bereich wird vollständig verfügbar sein, sobald der Online-Shop offiziell eröffnet wird.
+    </div>
+  </div>
+</div>
+
+<script>
+function openLegalModal(titleText) {
+  const modal = document.getElementById('legalModal');
+  const titleEl = document.getElementById('legalModalTitle');
+  
+  if (modal && titleEl) {
+    titleEl.innerText = titleText; 
+    modal.classList.add('active'); 
+    document.body.style.overflow = 'hidden'; 
+  }
+}
+
+function closeLegalModal() {
+  const modal = document.getElementById('legalModal');
+  if (modal) {
+    modal.classList.remove('active'); 
+    document.body.style.overflow = ''; 
+  }
+}
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('legalModal');
+  if (event.target === modal) {
+    closeLegalModal();
+  }
+});
+</script>
+
+</body>
+</html>

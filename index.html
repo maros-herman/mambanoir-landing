@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAMBANOIR – Strike Hard, Strike Fast</title>
+
+<link rel="canonical" href="https://mambanoir.sk/">
+<link rel="alternate" hreflang="sk" href="https://mambanoir.sk/">
+<link rel="alternate" hreflang="de" href="https://mambanoir.sk/de/">
+<link rel="alternate" hreflang="en" href="https://mambanoir.sk/en/">
+<link rel="alternate" hreflang="es" href="https://mambanoir.sk/es/">
+<link rel="alternate" hreflang="fr" href="https://mambanoir.sk/fr/">
+<link rel="alternate" hreflang="it" href="https://mambanoir.sk/it/">
+<link rel="alternate" hreflang="x-default" href="https://mambanoir.sk/">
+
+<link rel="icon" type="image/png" href="obrazky/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #080808;
+    --dark: #111111;
+    --card: #161616;
+    --border: rgba(255,255,255,0.08);
+    --white: #ffffff;
+    --off-white: #c8c8c8;
+    --muted: #666666;
+  }
+  html { scroll-behavior: smooth; max-width: 100%; overflow-x: hidden; position: relative; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+	position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: rgba(8,8,8,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+	width: 100%;
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo-tm {
+    font-size: 0.35em; /* Zmenší veľkosť na 35% z veľkosti loga */
+    vertical-align: super; /* Posunie sa nad text */
+    margin-left: 2px; /* Drobné odsadenie od posledného písmena */
+    font-family: sans-serif; /* Použije čisté línie pre symbol */	
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nav-links a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  
+  
+   /* ===== MENU VYBER JAZYKOV NA MOBILE ===== */
+	.mobile-lang-container {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.mobile-lang-divider {
+		width: 40px;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.15);
+		margin-bottom: 1.5rem;
+	}
+
+	.mobile-flags-row {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.mobile-flag-link {
+		font-size: 2.2rem !important;
+		text-decoration: none;
+		opacity: 0.4;
+		transition: 0.3s ease;
+	}
+
+	.mobile-flag-link.active {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+
+	/* Skrytie nepotrebných prvkov v mobilnom headeri */
+	@media (max-width: 899px) {
+		.nav-links, .lang-selector, .nav-cta {
+			display: none !important;
+		}
+		.nav-hamburger {
+			display: flex;
+		}
+	}
+	/* Oprava pre pravú časť navigácie na PC */
+	.nav-right {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem; /* Medzera medzi vlajkou a bielym tlačidlom */
+		flex-direction: row; /* Zabezpečí, že budú vedľa seba */
+	}
+
+  
+  /* ===== MENU VYBER JAZYKOV NA PC ===== */
+  .lang-selector { 
+	position: relative; 
+	display: inline-block; }
+  
+  .lang-toggle {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 1rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--off-white);
+    background: none; border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.6rem 1rem; cursor: pointer; border-radius: 2px;
+	filter: drop-shadow(0 0 2px rgba(255, 255, 255, 255));
+  }
+  .lang-dropdown {
+    position: absolute; top: 100%; right: 0;
+    background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(15px);
+    border: 1px solid var(--border); min-width: 180px;
+    list-style: none; margin-top: 0.5rem;
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: all 0.3s ease; z-index: 1000;
+  }
+  .lang-option .lang-flag {
+    background: #5B5A60;  /* Veľmi jemné pozadie pri rozkliknutí výberu vlajok */
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+	font-size: 1.1rem;
+  }
+  .lang-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-dropdown a {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.9rem 1.25rem; color: var(--off-white);
+    text-decoration: none; font-size: 0.8rem; transition: 0.2s;
+  }
+  .lang-dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+
+  .nav-cta {
+    background: var(--white); color: var(--black);
+    border: none; padding: 0.7rem 1.4rem;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; transition: transform 0.2s;
+  }
+  .nav-cta:hover { transform: scale(1.05); }
+  
+  .light-mode .lang-dropdown a { 
+    color: #ffffff !important;  /* Farby rozkliknutého menu jazyka v bledom režime*/
+  }
+  .light-mode .lang-dropdown {
+    background: #5B5A60 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+ }
+ .light-mode .lang-toggle {
+    background: #9E9DA1;
+    border-color: rgba(0,0,0,0.2);
+ }
+  
+  
+  /* Hamburger */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px;
+    background: none;
+    border: none;
+	z-index: 101;
+	margin-left: auto;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--white);
+    transition: all 0.3s ease;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  
+
+  /* Mobile menu */
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(8,8,8,0.98);
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-mobile-menu a:hover { opacity: 0.5; }
+  .nav-mobile-cta {
+    margin-top: 1rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: none;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+  }
+
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+  }
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    display: none;
+    justify-content: space-evenly;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-bg-lines span {
+    width: 1px;
+    height: 100%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+    position: relative;
+    z-index: 1;    
+    max-width: 100%;
+    line-height: 1.5;
+}
+  .hero-logo-img {
+    width: min(320px, 70vw);
+    height: min(320px, 70vw);
+    object-fit: contain;
+    margin-bottom: 2rem;
+    mix-blend-mode: lighten;
+    animation: fadeUp 0.9s 0.1s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 12vw, 9.5rem);
+    letter-spacing: 0.04em;
+    line-height: 0.92;
+    text-transform: uppercase;
+    color: var(--white);
+    animation: fadeUp 1s 0.2s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-slash { display: block; }
+  .hero-tagline {
+    margin-top: 2rem;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    animation: fadeUp 1s 0.35s ease both;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-actions {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s 0.5s ease both;
+    position: relative;
+    z-index: 10;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUp 1s 0.9s ease both;
+    z-index: 5;
+  }
+  
+
+  /* ===== BUTTONS ===== */
+  .btn-primary {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: 1px solid var(--white);
+    padding: 0.85rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: transparent; color: var(--white); }
+  .btn-outline {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.85rem 2.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--white); }
+
+
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+    animation: scrollPulse 2s infinite;
+  }
+  .scroll-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+
+
+  /* ===== MANIFESTO ===== */
+  .manifesto {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 3rem);
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .section-label::before, .section-label::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+  }
+  .manifesto-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .manifesto-text em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+  }
+  .manifesto-sub {
+    margin-top: 2rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--off-white);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 1px;
+    border-bottom: 2px solid #9F9F9F !important
+}
+
+
+  /* ===== PILLARS ===== */
+  .pillars {
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem) clamp(4rem, 8vw, 8rem);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pillars-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .pillar {
+    flex: 1 1 280px;
+    background: var(--dark);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2rem);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    border-right: 1px solid var(--border);
+    box-sizing: border-box;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar:hover { background: var(--card); }
+  .pillar-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .pillar-icon {
+    width: 32px;
+    height: 2px;
+    background: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .pillar-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .pillar-text {
+    font-size: clamp(0.82rem, 1.5vw, 0.88rem);
+    line-height: 1.7;
+    color: var(--off-white);
+  }
+
+  /* On small screens pillars stack */
+  @media (max-width: 600px) {
+    .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+    .pillar:last-child { border-bottom: none; }
+  }
+
+
+
+  /* ===== PRODUCTS ===== */
+  .products {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .products-inner { max-width: 1200px; margin: 0 auto; }
+  .products-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .products-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+  }
+  .products-title span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+  }
+  .products-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    max-width: 280px;
+    text-align: right;
+    line-height: 1.6;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .product-card {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3vw, 2rem);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .product-card:hover { border-color: rgba(255,255,255,0.25); }
+  .product-card.coming-soon::after {
+    content: 'COMING SOON';
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.6rem;
+  }
+  .product-icon {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    color: rgba(255,255,255,0.08);
+  }
+  .product-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .product-desc {
+    font-size: clamp(0.78rem, 1.5vw, 0.82rem);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  
+  
+
+  /* ===== MATERIAL DEEP DIVE ===== */
+  .material-deep-dive {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    background: radial-gradient(circle at center, #161616 0%, #080808 100%);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .material-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .material-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 300px;
+    background: rgba(255,255,255,0.03);
+    filter: blur(100px);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .material-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    text-transform: uppercase;
+    font-weight: 900;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+  }
+  .material-title span {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+  }
+  .material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+  .material-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .material-item h4::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .material-item p {
+    font-size: clamp(0.82rem, 1.5vw, 0.9rem);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+
+
+  /* ===== SECTION DIVIDER TEXT ===== */
+  .section-divider-text {
+    padding: clamp(4rem, 9vw, 9rem) 2rem;
+    text-align: center;
+    background: #080808;
+    border-top: 1px solid rgba(255,255,255,0.03);
+  }
+  .section-divider-text p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(0.9rem, 3vw, 2.5rem);
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.1);
+    text-transform: uppercase;
+  }
+
+
+
+  /* ===== WAITLIST ===== */
+  .waitlist {
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .waitlist-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .waitlist-sub {
+    font-size: clamp(0.82rem, 2vw, 0.9rem);
+    color: var(--off-white);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .waitlist-form {
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto 1rem;
+    flex-wrap: nowrap;
+  }
+  .waitlist-input {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.9rem 1.2rem;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .waitlist-input:focus { border-color: rgba(255,255,255,0.35); }
+  .waitlist-input::placeholder { color: var(--muted); }
+  .waitlist-btn {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .waitlist-btn:hover { opacity: 0.85; }
+  .waitlist-note {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .success-msg {
+    display: none;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+
+
+
+  /* ===== FOOTER ===== */
+  .footer-wrapper {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    margin-top: 4rem;
+  }
+  .footer-socials {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) clamp(3rem, 5vw, 4.5rem);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-socials-label {
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+  .footer-socials-grid {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .footer-social-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1.4rem, 3vw, 2.2rem);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    color: var(--off-white);
+    text-decoration: none;
+    min-width: 100px;
+    transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.2s;
+  }
+  .footer-social-btn:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: var(--white);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-3px);
+  }
+  .footer-social-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+  .footer-social-btn span {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .footer-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-brand-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .footer-brand-desc {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+    max-width: 280px;
+  }
+  .footer-brand-slogan {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+  }
+  .footer-col-title {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .footer-nav-list a {
+    font-size: 0.85rem;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+    display: block;
+  }
+  .footer-nav-list a:hover { color: var(--white); padding-left: 6px; }
+  .footer-contact-email {
+    font-size: 0.85rem;
+    color: var(--off-white);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.8rem;
+    transition: color 0.2s;
+    word-break: break-all;
+  }
+  .footer-contact-email:hover { color: var(--white); }
+  .footer-contact-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.8rem clamp(1.5rem, 4vw, 3rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .footer-bottom-left {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .footer-bottom-right {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.13);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-bottom-right:hover { color: rgba(255,255,255,0.6); }
+  .footer-bottom-right span { font-weight: 700; }
+  
+  /* Štýly pre právne odkazy v pätičke */
+  .footer-legal-links {
+    display: flex;
+    gap: 1.5rem; /* Medzera medzi jednotlivými odkazmi */
+    flex-wrap: wrap;
+  }
+
+  .footer-legal-links a {
+    font-size: 0.7rem;
+    color: var(--off-white); /* V tmavom pätičke bude svetlý */
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: var(--white); /* Pri prejdení myšou odkaz zbelie */
+  }
+
+  /* Tu budú odkazy čierne IBA vtedy, keď sa celá pätička prepne do biela (ak sa prepína): */
+  body.light-mode .footer-legal-links a {
+    color: #000000; 
+  }
+  
+  /* --- MODÁLNE OKNO PRE PRÁVNE DOKUMENTY --- */
+  .legal-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .legal-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .legal-modal-content {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    text-align: center;
+  }
+
+  .legal-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--off-white);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .legal-modal-close:hover {
+    color: var(--white);
+  }
+
+  .legal-modal-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 15px;
+    color: var(--white);
+  }
+
+  .legal-modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--off-white);
+  }
+  
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  
+  /* Nové štýly pre právne odkazy v pätičke */
+  .footer-legal-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .footer-legal-links a {
+    font-size: 0.7rem;
+    color: #666666; /* Natvrdo nastavená sivá, ktorú light-mode neovplyvní */
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s ease;
+  }
+  .footer-legal-links a:hover {
+    color: var(--white); /* Pri hoveri zbelie */
+  }
+
+
+
+  /* ===== RESPONSIVE BREAKPOINTS ===== */
+
+  /* Tablet landscape & small desktop (900px–1199px) */
+  @media (max-width: 1100px) {
+    .footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+
+
+/* Tablet portrait & Mobile General */
+@media (max-width: 899px) {
+    nav { 
+        padding: 1rem 1.5rem;
+        justify-content: space-between; /* Toto zaistí logo vľavo a menu vpravo */
+    }
+    .nav-links, .nav-cta { 
+        display: none !important; /* Natvrdo sa schovajú desktopové prvky */
+    }
+    .nav-hamburger { 
+        display: flex; 
+    }
+
+    .hero { padding: 7rem 1.5rem 5rem; }
+
+    .pillars-grid { flex-direction: column; }
+    .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+    
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+
+/* Mobile Specific (< 600px) */
+@media (max-width: 599px) {
+    /* FIX PRE VYČNIEVANIE: */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+	.hero-eyebrow {
+        font-size: 0.75rem !important;       /* Jemne čitateľnejšie písmo na mobile */
+        letter-spacing: 0.15em !important;   /* Zmenšený rozostup písmen, aby text tak rýchlo nepretiekol */
+        margin-bottom: 1.5rem !important;    /* Menšia medzera smerom k logu */
+        
+        /* TOTO JE OPRAVA PRE ŠUPINY */
+        max-width: 75% !important;           /* Text sa zúži na 75% šírky displeja a nezasiahne do krajov */
+        margin-left: auto !important;        /* Automatické vycentrovanie zľava */
+        margin-right: auto !important;       /* Automatické vycentrovanie zprava */
+        line-height: 1.4 !important;         /* Ak sa text kvôli šírke zalomí na 2 riadky, riadky nebudú na sebe nalepené */
+    }
+	.products-header {
+        flex-direction: column !important; /* Prvky pôjdu presne pod seba */
+        align-items: center !important;    /* Vycentruje nadpis aj vetu na stred */
+        text-align: center !important;     /* Zarovná text vo vnútri na stred */
+        margin-bottom: 3rem !important;    /* Optimálny odstup od produktov */
+        gap: 1rem !important;
+    }
+
+    .products-title {
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    .products-note {
+        text-align: center !important;     /* Na mobile už nebude vpravo, ale na stred */
+        max-width: 85% !important;         /* Bezpečne sa stiahne, aby nelícovala ku krajom a šupinám */
+        margin-left: auto !important;      /* Automatické vycentrovanie */
+        margin-right: auto !important;     /* Automatické vycentrovanie */
+        font-size: 0.9rem !important;      /* Mierne čitateľnejšie písmo na mobile */
+    }
+	
+	/* Usadenie odznaku COMING SOON na mobile, aby nelícoval s hornou hranou */
+    .product-card.coming-soon::after {
+		top: 1.5rem !important;     /* Výška zostáva pekná, aby nelícoval s hornou hranou */
+		right: 1.1rem !important;   /* Znížením z 1.5rem na 1.1rem skočí odznak viac DOPRAVA */
+		font-size: 0.5rem !important; 
+		padding: 0.25rem 0.5rem !important;
+	  }
+	  
+  
+     /* 1. Odkazy pôjdu pod seba a zarovnajú sa DOĽAVA */
+    .footer-legal-links {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: flex-start !important; 
+        gap: 0.8rem !important;            
+        margin-bottom: 2.3rem !important; /* Tu sa upravuje medzera dole medzi pravným blokom textov a mojim podpisom */
+		margin-top: 1.3rem !important; /* Tu sa upravuje medzera hore medzi pravným blokom textov a copyright časťou */
+        width: 100% !important;
+    }
+
+    /* 2. Úprava samotného textu odkazov */
+    .footer-legal-links a {
+        font-size: 0.8rem !important;      
+        letter-spacing: 0.05em !important;
+        text-align: left !important;        
+        display: block !important;
+    }
+
+    /* 3. NASTAVENIE MEDZERY MEDZI COPYRIGHTOM A PODPISOM */
+    .footer-bottom {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important; /* Zarovná celý spodok doľava */
+        text-align: left !important;
+    }
+
+    .footer-bottom p:first-child {
+        margin-bottom: 0.8rem !important;
+    }
+
+    .footer-bottom p:last-child {
+        margin-bottom: 0 !important; 
+    }
+
+	.hero-scroll {bottom: 0.5rem;}
+    .hero-title { font-size: clamp(3rem, 15vw, 5rem); }
+	.hero-actions {margin-bottom: 4rem; /* Vytvorí priestor medzi tlačidlami a scrollom */}
+    
+    .waitlist-form { flex-direction: column; }
+    .waitlist-input { border-right: 1px solid var(--border); border-bottom: none; }
+    .waitlist-btn { width: 100%; }
+
+    .footer-main { grid-template-columns: 1fr; }
+    
+    /* Oprava pre nadpis s bavlnou */
+    .material-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+}
+
+
+
+/* Very small screens (< 400px) */
+@media (max-width: 400px) {
+    .nav-logo {
+        font-size: 1.1rem; /* Zmenšenie loga, aby nezavadzalo hamburgeru */
+    }
+    .hero-title {
+        font-size: 2.8rem;
+    }
+}
+
+
+/* Definícia svetlých farieb */
+body.light-mode {
+    --black: #ffffff;      /* Pozadie bude biele */
+    --dark: #f5f5f5;       /* Sekcie budú jemne sivé */
+    --card: #eeeeee;
+    --border: #000000;
+    --white: #080808;      /* Text bude čierny */
+    --off-white: #444444;
+    --muted: #888888;
+}
+body.light-mode nav {
+    background: #B3B3B3;          /* Matná stredne svetlá sivá */
+    backdrop-filter: none;        /* Pri matnej sivej netreba blur, pôsobí to čistejšie */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Jemný tieň pre hĺbku */
+}
+
+body.light-mode .nav-logo {
+    color: #080808;
+}
+
+body.light-mode .nav-links a {
+    color: #222222;               /* Výraznejšia čierna pre matný podklad */
+    font-weight: 500;
+}
+
+body.light-mode .nav-links a:hover {
+    color: #000000;
+}
+
+
+
+/* Tlačidlo sa nechá čierne, aby na tej matnej sivej vyniklo */
+body.light-mode .nav-cta {
+    background: #080808;
+    color: #ffffff;
+}
+
+
+
+/* Mobilné menu sa upraví do rovnakej matnej sivej */
+body.light-mode .nav-mobile-menu {
+    background: #e0e0e0;
+}
+
+
+/* Úprava špeciálnych prvkov pre svetlý režim */
+
+body.light-mode .hero-bg-lines span { background: rgba(0,0,0,0.05); }
+body.light-mode .scroll-line { background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2)); }
+body.light-mode .nav-mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .hero-logo-img { mix-blend-mode: multiply; } /* Aby logo na bielom netvorilo štvorec, ak má pozadie */
+
+
+
+/* Štýl prepínača (Light Switch) */
+.theme-switch {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--border);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.theme-switch:hover { transform: scale(1.1); }
+
+body.light-mode .hero-eyebrow {
+    color: #333333; /* Tmavosivá pre dobrú čitateľnosť */
+    font-weight: 570; /* Jemne je pridaná hrúbka, aby text na svetlom pozadí nezanikol */
+}
+body.light-mode .btn-outline {
+    border: 1px solid #111111; /* Čierne ohraničenie */
+    background: #B3B3B3;        /* Jemná matná sivá výplň */
+    color: #111111;             /* Čierne písmo */
+}
+
+body.light-mode .btn-outline:hover {
+    background: #cccccc;        /* O niečo tmavšia sivá pri hoveri */
+}
+
+
+/* Zviditeľnenie scroll animácie (blikajúca čiarka) */
+body.light-mode .scroll-line {
+    background: linear-gradient(to bottom, transparent, rgba(5, 1, 2, 0.7));
+}
+
+body.light-mode .scroll-label {
+    color: #030202;
+}
+
+
+/* Oprava čitateľnosti textu "Nie si tu, aby si vyzeral tvrdo..." */
+body.light-mode .manifesto-text {
+    color: #080808; /* Z bielej na čiernu */
+	
+}
+
+body.light-mode .manifesto-text em {
+    -webkit-text-stroke: 1px #080808; /* Obrys pre zvýraznené slová */
+    color: #C2C2C2;
+}
+
+body.light-mode .manifesto-sub {
+    color: #000000; /* Podnadpis manifesta na tmavosivú */
+}
+
+
+
+
+/* Oprava sekcie Pillars (01, 02, 03) v Light Mode */
+
+body.light-mode .pillar {
+    background: #C0C0C0;            /* Svetlosivý podklad kariet */
+    border: 1px solid rgba(0, 0, 0, 0.18); /* Jemné ohraničenie */
+}
+
+body.light-mode .pillar:hover {
+    background: #e0e0e0;            /* Mierne stmavnutie pri prejdení myšou */
+}
+
+body.light-mode .pillar-num {
+    color: rgba(0, 0, 0, 0.05);     /* Veľké čísla v pozadí (veľmi jemná sivá) */
+}
+
+body.light-mode .pillar-title {
+    color: #080808;                 /* Čierny nadpis (napr. Zdravé pre telo) */
+}
+
+body.light-mode .pillar-text {
+    color: #030202;                 /* Tmavosivý hlavný text */
+}
+
+body.light-mode .pillar-icon {
+    background: #080808;            /* Čierna čiara/ikona */
+}
+
+
+/* Oprava mriežky, aby nezanikali čiary medzi kartami */
+body.light-mode .pillars-grid {
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Stmavenie nápisu Manifesto a bočných čiarok v Light Mode */
+body.light-mode .section-label {
+    color: #1a1a1a; /* Veľmi tmavá sivá až čierna */
+    font-weight: 600; /* Jemne hrubšie písmo pre lepšiu viditeľnosť */
+}
+body.light-mode .section-label::before, 
+body.light-mode .section-label::after {
+    background: #1a1a1a; /* Stmavenie čiarok po stranách */
+    opacity: 0.8;        /* Aby neboli príliš agresívne */
+}
+
+
+/* 2. Oprava sekcie BAVLNA (aby nebola čierna) */
+body.light-mode .features-section,
+body.light-mode #features,
+body.light-mode .cotton-section { 
+    background: #ffffff !important; /* V prípade potreby dať #f9f9f9 */
+    color: #111111 !important;
+}
+
+/* Nadpis v sekcii bavlna */
+body.light-mode .features-title,
+body.light-mode .features-section h2 {
+    color: #000000 !important;
+}
+
+
+/* Texty pod výhodami (0% žmolkovanie atď.) */
+body.light-mode .feature-item,
+body.light-mode .feature-card {
+    background: transparent !important;
+}
+
+body.light-mode .feature-item h3 {
+    color: #000000 !important;
+}
+
+body.light-mode .feature-item p {
+    color: #444444 !important;
+}
+
+
+/* 3. Spodný nápis "KVALITA, KTORÁ NEUSTUPUJE..." */
+body.light-mode .closing-statement,
+body.light-mode .bottom-banner {
+    background: #f5f5f5 !important;
+    color: #111111 !important;
+}
+
+
+
+
+/* TOTO OPRAVÍ DVE ČIERNE SEKCIE V LIGHT MODE */
+
+/* 1. Oprava sekcie PRODUKTY (01, 02, 03 - ak sú v tmavom bloku) */
+body.light-mode .products {
+    background: #ffffff !important;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .product-card {
+    background: #f9f9f9 !important;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* 2. Oprava sekcie MATERIAL DEEP DIVE (Bavlna) */
+body.light-mode .material-deep-dive {
+    background: #989696 !important; /* Odstráni ten tmavý gradient */
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .material-title {
+    color: #000000 !important;
+}
+
+body.light-mode .material-item h4 {
+    color: #000000 !important;
+}
+
+body.light-mode .material-item h4::before {
+    background: #000000 !important; /* Čierne štvorčeky pri nadpisoch */
+}
+
+body.light-mode .material-item p {
+    color: #000000 !important;
+}
+
+/* 3. Oprava sekcie SECTION DIVIDER TEXT (Ten šedý nápis medzi sekciami) */
+body.light-mode .section-divider-text {
+    background: #575555 !important;
+	border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-mode .section-divider-text p {
+    color: #888888 !important; /* Jemný nápis na pozadí */
+}
+
+/* 4. Oprava FOOTERU (bol tiež tmavý) */
+body.light-mode .footer-wrapper {
+    background: #f5f5f5 !important;
+}
+
+body.light-mode .footer-brand-name,
+body.light-mode .footer-col-title {
+    color: #000000 !important;
+}
+/* Vyplnenie obrysového písma v Light Mode */
+body.light-mode .material-title span {
+    -webkit-text-stroke: 1px #000000 !important; /* Čierny obrys */
+    color: #000000 !important;              /* Čierna výplň */
+    opacity: 1 !important;
+}
+body.light-mode .material-title span {
+    -webkit-text-stroke: 1px #000000 !important; 
+    color: rgba(0, 0, 0, 0.2) !important; /* 20% čierna výplň - vytvorí efekt "strieborného" vnútra */
+}
+
+
+
+/* Oprava sekcie Produkty (Prvá Kolekcia) v Light Mode */
+
+body.light-mode .products {
+    background: #9A9898 !important; /* Jemná svetlosivá (ako si mal predtým) */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+/* Oprava nadpisu "Prvá Kolekcia" */
+body.light-mode .products-title {
+    color: #000000 !important;
+}
+
+body.light-mode .products-title span {
+    -webkit-text-stroke: 1px #000000 !important;
+    color: #C6C6C6 !important; /* Ponechá obrys pre slovo "Kolekcia" */
+}
+
+/* Oprava kariet s produktmi */
+body.light-mode .product-card {
+    background: #ffffff !important; /* Biele karty na sivom podklade vyniknú */
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* Jemný tieň pre prémiový vzhľad */
+}
+
+/* Texty v kartách */
+body.light-mode .product-name {
+    color: #000000 !important;
+	
+	
+	
+}
+
+body.light-mode .product-desc {
+    color: #444444 !important;
+	
+}
+
+/* Ikona/Placeholder produktu */
+body.light-mode .product-icon {
+    background: #C0C0C0 !important;
+    color: rgba(0, 0, 0, 0.2) !important;
+	
+}
+
+/* Štítok "COMING SOON" */
+body.light-mode .product-card.coming-soon::after {
+    color: #040303 !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    background: #f0f0f0;
+}
+body.light-mode .products p {
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+
+/* Upravený kód pre Light Mode */
+body.light-mode .waitlist {
+    position: relative; /* Nutné pre správne fungovanie pozadia */
+    background: transparent !important; /* Pôvodné pozadie skryjeme */
+}
+
+
+
+/* Toto vytvorí šedú plochu cez celú obrazovku bez posúvania textu */
+body.light-mode .waitlist::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100%; /* Roztiahne sa ďaleko doľava */
+    right: -100%; /* Roztiahne sa ďaleko doprava */
+    background: #575555 !important; /* Tu je šedá */
+    z-index: -1; /* Položí sa pod text */
+}
+
+/* Ostatné štýly zostávajú rovnaké */
+body.light-mode .waitlist-title { color: #000000 !important; }
+body.light-mode .waitlist-sub { color: #dddddd !important; }
+body.light-mode .waitlist-input { background: #ffffff !important; color: #000000 !important; }
+body.light-mode .waitlist-btn { background: #000000 !important; color: #ffffff !important; }
+
+/* Zmena textu pod tlačidlom na biely v Light Mode */
+body.light-mode .waitlist-note {
+    color: #ffffff !important;
+    opacity: 0.8; /* Jemná priehľadnosť, aby to nepôsobilo príliš "ostro", ale stále bolo čitateľné */
+}
+
+/* 1. Roztiahnutie sekcie SOCIÁLNE SIETE na celú šírku */
+body.light-mode .footer-socials {
+    position: relative;
+    background: transparent !important; /* Pôvodné pozadie sa skryje */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .footer-socials::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw; /* Extrémne roztiahnutie do strán */
+    background: #888585 !important; /* Farba pozadia (môže byť aj #f9f9f9) */
+    z-index: -1;
+}
+
+/* 2. Roztiahnutie HLAVNÉHO FOOTERU na celú šírku */
+body.light-mode .footer-wrapper {
+    position: relative;
+    background: transparent !important;
+}
+
+body.light-mode .footer-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw;
+    background: #888585 !important; /* Tu sa dá zmeniť na #f5f5f5, aby bol spodok jemne sivý */
+    z-index: -1;
+}
+
+/* 3. Roztiahnutie spodnej LIŠTY (Copyright) */
+body.light-mode .footer-bottom {
+    position: relative;
+    background: transparent !important;
+}
+
+body.light-mode .footer-bottom::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -100vw; right: -100vw;
+    background: #888585 !important;
+    z-index: -1;
+}
+
+
+/* --- Ostatné farby textov zostávajú --- */
+body.light-mode .footer-brand-name, 
+body.light-mode .footer-col-title { color: #000000 !important; }
+body.light-mode .footer-nav-list a, 
+body.light-mode .footer-contact-email { color: #000000 !important; }
+body.light-mode .footer-social-btn { color: #000000 !important; border-color: color: #000000 !important; }
+
+
+/* Zmena farby copyrightu a autora stránky na čiernu */
+body.light-mode .footer-bottom-left,
+body.light-mode .footer-bottom-right,
+body.light-mode .footer-bottom-right span {
+    color: #000000 !important;
+    opacity: 1 !important; /* Odstráni prípadnú priehľadnosť, aby bola čierna sýta */
+}
+
+/* Odstránenie bielej medzery medzi Waitlistom a Footerom */
+body.light-mode .waitlist {
+    margin-bottom: 1 !important;
+    padding-bottom: 4rem !important; /* Dá sa upraviť podľa toho, aká veľká ma byť šedá plocha pod textom */
+}
+body.light-mode .footer-socials {
+    margin-top: 0 !important;
+    padding-top: 4rem !important;
+}
+
+
+
+/* Ak zostane tenký biely pásik, zafarbí sa aj obal footeru */
+body.light-mode .footer-wrapper {
+    margin-top: 0 !important;
+}
+
+
+/* Zviditeľnenie všetkých textov vo footeri v Light Mode */
+body.light-mode .footer-socials-label,
+body.light-mode .footer-brand-name,
+body.light-mode .footer-col-title,
+body.light-mode .footer-brand-desc,
+body.light-mode .footer-brand-slogan,
+body.light-mode .footer-nav-list a,
+body.light-mode .footer-contact-email,
+body.light-mode .footer-contact-note,
+body.light-mode .footer-bottom-left,
+body.light-mode .footer-bottom-right,
+body.light-mode .footer-bottom-right span {
+    color: #000000 !important; /* Čistá biela pre maximálny kontrast */
+    opacity: 1 !important;     /* Zruší sa akúkoľvek priehľadnosť */
+}
+
+/* Úprava ikon sociálnych sietí, aby v nich bolo vidieť text */
+body.light-mode .footer-social-btn span {
+    color: #000000 !important;
+}
+
+/* Efekt pri prejdení myšou na odkazy (hover) */
+body.light-mode .footer-nav-list a:hover,
+body.light-mode .footer-contact-email:hover {
+    color: #cccccc !important; /* Jemne zošedne pri hoveri, aby užívateľ vedel, že je to klikateľné */
+}
+
+/* Zvýraznenie orámovania sociálnych sietí v Light Mode */
+body.light-mode .footer-social-btn {
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important; /* Svetlejšie a hrubšie orámovanie */
+    background-color: rgba(255, 255, 255, 0.05) !important; /* Veľmi jemný nádych pozadia pre hĺbku */
+    transition: all 0.3s ease;
+}
+
+/* Efekt pri prejdení myšou (Hover) */
+body.light-mode .footer-social-btn:hover {
+    border-color: #ffffff !important; /* Pri hoveri sa rámik úplne rozsvieti na bielo */
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Tieto štýly šupín sa aktivujú LEN ak má body triedu .light-mode */
+body.light-mode .hero::before,
+body.light-mode .hero::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    width: 280px !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    opacity: 0.3 !important;
+    background-image: 
+        linear-gradient(135deg, #000 25%, transparent 25%), 
+        linear-gradient(225deg, #000 25%, transparent 25%), 
+        linear-gradient(45deg, #000 25%, transparent 25%), 
+        linear-gradient(315deg, #000 25%, transparent 25%) !important;
+    background-position: 10px 0, 10px 0, 0 0, 0 0 !important;
+    background-size: 20px 20px !important;
+    background-repeat: repeat !important;
+}
+
+body.light-mode .hero::before { left: 0 !important; -webkit-mask-image: linear-gradient(to right, black, transparent) !important; }
+body.light-mode .hero::after { right: 0 !important; -webkit-mask-image: linear-gradient(to left, black, transparent) !important; 
+
+}
+
+/* Univerzálna oprava pre scroll - funguje v tme aj svetle */
+.hero-scroll {
+    position: absolute !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: auto !important; /* Poistka, aby sa nerozťahoval */
+}
+
+/* Vynútenie čiernej deliacej čiary v bledom režime */
+body.light-mode .hero {
+    border-bottom: 1px solid #9F9F9F !important; /* Hrúbka 2px, sýta čierna */
+    box-sizing: border-box !important;
+}
+
+/* Vynútenie bielej deliacej čiary v čiernom režime */
+body:not(.light-mode) .hero {
+    /* Toto slúži na uistenie sa, že spodná čiara (border) tam stále je */
+    border-bottom: 1px solid var(--border) !important; 
+    position: relative;
+}
+
+body:not(.light-mode) .hero::before,
+body:not(.light-mode) .hero::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important; /* Šupiny skončia presne tam, kde začína border-bottom */
+    width: 280px !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    
+    /* Decentná biela pre šupiny v tme */
+    opacity: 0.04 !important; 
+    
+    background-image: 
+        linear-gradient(135deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(225deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(45deg, #ffffff 25%, transparent 25%), 
+        linear-gradient(315deg, #ffffff 25%, transparent 25%) !important;
+    background-position: 10px 0, 10px 0, 0 0, 0 0 !important;
+    background-size: 20px 20px !important;
+    background-repeat: repeat !important;
+}
+
+/* Maskovanie (prechody do stratena) */
+body:not(.light-mode) .hero::before { 
+    left: 0 !important; 
+    -webkit-mask-image: linear-gradient(to right, black, transparent) !important; 
+}
+body:not(.light-mode) .hero::after { 
+    right: 0 !important; 
+    -webkit-mask-image: linear-gradient(to left, black, transparent) !important; 
+}
+
+
+
+/* Táto časť opraví prekrývanie na mobiloch (obrazovky pod 768px) */
+@media (max-width: 767px) {
+    body.light-mode .hero::before,
+    body.light-mode .hero::after,
+    body:not(.light-mode) .hero::before,
+    body:not(.light-mode) .hero::after {
+        width: 60px !important; /* Výrazne sa zúžia šupiny na bokoch */
+        opacity: 0.08 !important; /* Ešte viac ich sa zjemnia, aby nerušili text */
+    }
+
+    /* Ak by aj 60px bolo veľa, týmto ich na mobile je možné úplne vypnúť:
+    .hero::before, .hero::after { display: none !important; } 
+    */
+
+    /* Zabezpečenie, aby obsah v strede bol vždy nad šupinami */
+    .hero-eyebrow, 
+    .hero-logo-img, 
+    .hero-title, 
+    .hero-tagline, 
+    .hero-actions {
+        position: relative;
+        z-index: 2;
+}
+
+/* Zosvetlenie textu v celej pätičke */
+body.light-mode .footer-wrapper {
+    color: #666666 !important; /* Jemná sivá namiesto čiernej */
+}
+
+/* Zosvetlenie popisu značky a kontaktných informácií */
+body.light-mode .footer-brand-desc,
+body.light-mode .footer-contact-note,
+body.light-mode .footer-bottom-left {
+    color: #000000 !important; /* Ešte bledší odtieň pre menej dôležité texty */
+}
+
+/* Úprava odkazov v pätičke */
+body.light-mode .footer-nav-list a,
+body.light-mode .footer-contact-email {
+    color: #000000 !important; /* O niečo tmavšia sivá pre čitateľnosť odkazov */
+}
+
+body.light-mode .footer-nav-list a:hover {
+    color: #000000 !important; /* Pri prejdení myšou odkazu stmavne */
+}
+
+/* Voliteľné: Ak treba, aby aj nadpisy stĺpcov (STRÁNKA, SIETE) boli bledšie */
+body.light-mode .footer-col-title {
+    color: #FFF6E5 !important;
+    border-bottom-color: #000000 !important;
+
+}
+
+/* Kontajner dropdownu - posunie sa ku tlačidlu */
+.lang-dropdown {
+  position: relative;
+  margin-left: auto; /* Odtlačí ho od menu doprava */
+  margin-right: 30px; /* Medzera od bieleho tlačidla */
+  display: inline-block;
+}
+
+/* Aktuálna vybraná vlajka (tá horná) */
+.lang-current {
+  background: rgba(255, 255, 255, 0.05); /* Jemné pozadie pre lepšiu viditeľnosť */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem; /* Väčšia veľkosť */
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Zoznam možností, ktorý je schovaný */
+.lang-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  overflow: hidden; /* Aby rohy nepretŕčali */
+}
+
+/* Jednotlivé riadky v zozname (SK, ES, IT...) */
+.lang-options a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  padding: 12px 15px;
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; /* Väčšie písmo */
+  transition: background 0.2s;
+}
+
+.lang-options a:hover {
+  background-color: #1a1a1a;
+}
+
+/* Zobrazenie zoznamu pri prejdení myšou */
+.lang-dropdown:hover .lang-options {
+  display: flex;
+  flex-direction: column; /* Uloží ich pod seba */
+}
+
+/* Zväčšenie samotných emoji vlajok */
+.lang-current span, .lang-options span {
+  font-size: 2.6rem;
+}
+
+</style>
+
+</head>
+<body>
+<button class="theme-switch" id="themeToggle" aria-label="Prepnúť režim">
+  <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+
+<!--Navigation with language switch-->
+<nav>
+  <a href="#home" class="nav-logo" onclick="closeMenu()">MAMBANOIR<sup class="logo-tm">&trade;</sup></a>
+  <ul class="nav-links">
+    <li><a href="#about">O nás</a></li>
+    <li><a href="#products">Produkty</a></li>
+    <li><a href="#waitlist">Waitlist</a></li>
+	<li><a href="#contact">Kontakt</a></li>
+  </ul>
+  
+  <div class="nav-right">
+  <div class="lang-selector">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
+      <span class="lang-flag" id="langFlag">🇸🇰</span>
+      <span class="lang-arrow">▼</span>
+    </button>
+    <ul class="lang-dropdown" id="langDropdown">
+      <li><a href="index.html" class="lang-option active" data-lang="sk" onclick="switchLanguage('sk', event)"><span class="lang-flag">🇸🇰</span> Slovenčina</a></li>
+      <li><a href="fr/index.html" class="lang-option" data-lang="fr" onclick="switchLanguage('fr', event)"><span class="lang-flag">🇫🇷</span> Français</a></li>
+      <li><a href="en/index.html" class="lang-option" data-lang="en" onclick="switchLanguage('en', event)"><span class="lang-flag">🇬🇧</span> English</a></li>
+      <li><a href="it/index.html" class="lang-option" data-lang="it" onclick="switchLanguage('it', event)"><span class="lang-flag">🇮🇹</span> Italiano</a></li>
+      <li><a href="de/index.html" class="lang-option" data-lang="de" onclick="switchLanguage('de', event)"><span class="lang-flag">🇩🇪</span> Deutsch</a></li>
+      <li><a href="es/index.html" class="lang-option" data-lang="es" onclick="switchLanguage('es', event)"><span class="lang-flag">🇪🇸</span> Español</a></li>
+    </ul>
+  </div>
+
+  <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+    Zaregistrovať sa
+  </button>
+</div>
+  
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+
+<!-- Mobile fullscreen menu -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">O nás</a>
+  <a href="#products" onclick="closeMenu()">Produkty</a>
+  <a href="#waitlist" onclick="closeMenu()">Waitlist</a>
+  <a href="#contact" onclick="closeMenu()">Kontakt</a>
+  
+  <button class="nav-mobile-cta" onclick="closeMenu(); document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+    Zaregistrovať sa
+  </button>
+
+  <div class="mobile-lang-container">
+    <div class="mobile-lang-divider"></div>
+    <div class="mobile-flags-row">
+      <a href="fr/index.html" onclick="changeLanguage('fr', event)" class="mobile-flag-link">🇫🇷</a>
+      <a href="en/index.html" onclick="changeLanguage('en', event)" class="mobile-flag-link">🇬🇧</a>
+      <a href="it/index.html" onclick="changeLanguage('it', event)" class="mobile-flag-link">🇮🇹</a>
+      <a href="es/index.html" onclick="changeLanguage('es', event)" class="mobile-flag-link">🇪🇸</a>
+	  <a href="de/index.html" onclick="changeLanguage('de', event)" class="mobile-flag-link">🇩🇪</a>
+      <a href="index.html" class="mobile-flag-link active">🇸🇰</a>
+    </div>
+  </div>
+</div>
+
+
+<!--Section Hero-->
+<section class="hero" id="home">
+  <div class="hero-bg-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p class="hero-eyebrow">Fitness Apparel · 100% Cotton · Prémium kvalita</p>
+  <img src="obrazky/logo.webp" alt="MAMBANOIR logo" class="hero-logo-img">
+  <h1 class="hero-title">MAMBA<span class="hero-slash">NOIR</span></h1>
+  <p class="hero-tagline">Strike Hard, Strike Fast</p>
+  <div class="hero-actions">
+    <a href="#products" class="btn-primary">Pozrieť kolekciu</a>
+    <a href="#waitlist" class="btn-outline">Sledovať launch</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+<section class="manifesto reveal" id="about">
+  <div class="section-label">Manifesto</div>
+  <p class="manifesto-text">Nie si tu, aby si <em>vyzeral</em> tvrdo.<br>Si tu, aby si <em>bol</em> tvrdý.</p>
+  <p class="manifesto-sub">MAMBANOIR vznikol pre ľudí, ktorí trénujú seriózne. Oblečenie zo 100% bavlny, ktoré dýcha s každým vaším pohybom, nepáli pokožku a nelepí sa na telo. Žiadna syntetika. Žiadne výhovorky.</p>
+</section>
+
+
+<!--Class Divider-->
+<div class="divider"></div>
+
+
+<!--Section Pillars (tabuľka)-->
+<section class="pillars reveal">
+  <div class="pillars-grid">
+    <div class="pillar">
+      <span class="pillar-num">01</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">100% prstencová česaná bavlna</h3>
+      <p class="pillar-text">Žiadne syntetické vlákna, žiadne dráždenie pokožky. Čistá bavlna pre maximálnu priedušnosť a komfort pri tréningu.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">02</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">Zdravé pre telo</h3>
+      <p class="pillar-text">Naše materiály neobsahujú žiadne chemické úpravy, ktoré by sa pri potení uvoľňovali do tela. Maximálny výkon, nulové riziko pre tvoju pokožku.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">03</span>
+      <div class="pillar-icon"></div>
+      <h3 class="pillar-title">Identita, nie iba tričko</h3>
+      <p class="pillar-text">MAMBANOIR je postoj. Každý kus nesie príbeh odhodlania. Oblečenie pre tých, čo udrú tvrdo a nezastavia sa.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!--Section Material deep dive-->
+<section class="material-deep-dive reveal">
+  <div class="material-container">
+    <div class="material-content">
+      <h2 class="material-title">Prstencová česaná<wbr> (Ring-spun) bavlna: <br><span>Tvoj nový štandard</span></h2>
+      <div class="material-grid">
+        <div class="material-item">
+          <h4>0% Žmolkovanie</h4>
+          <p>Dlhé česané vlákna vytvárajú dokonale hladký povrch, ktorý zostáva rovnaký aj po 50 praniach.</p>
+        </div>
+        <div class="material-item">
+          <h4>2x Vyššia pevnosť</h4>
+          <p>Prstencové krútenie dodáva tričku odolnosť, ktorú pri bežnej bavlne nenájdeš. Drží tvar, nech robíš čokoľvek.</p>
+        </div>
+        <div class="material-item">
+          <h4>Maximálna priedušnosť</h4>
+          <p>Čistá bavlna bez syntetiky a nánosov chémie. Tvoja pokožka dýcha aj počas najťažších sérií.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--Divider text-->
+<div class="section-divider-text">
+  <p>KVALITA, KTORÁ NEUSTUPUJE. DIZAJN, KTORÝ VYČNIEVA.</p>
+</div>
+
+
+<!--Section products collections-->
+<section class="products reveal" id="products">
+  <div class="products-inner">
+    <div class="products-header">
+      <h2 class="products-title">Prvá<br><span>Kolekcia</span></h2>
+      <p class="products-note">Launch sa pripravuje. Zaregistruj sa a buď prvý, kto sa dozvie.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">MAMBA Classic Tee</p>
+        <p class="product-desc">Základný kus. Heavy cotton, oversize fit, logo na hrudi. Čierna a biela.</p>
+      </div>
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">NOIR Strike Tee</p>
+        <p class="product-desc">Slogan na chrbte, minimalistický predok. Pre tréning aj ulicu.</p>
+      </div>
+      <div class="product-card coming-soon">
+        <div class="product-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <p class="product-name">VENOM Drop Tee</p>
+        <p class="product-desc">Drop-shoulder strih, hadí motív. Limitovaná edícia prvej kolekcie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--Section waitlist-->
+<section class="waitlist reveal" id="waitlist">
+  <div class="section-label">Early Access</div>
+  <h2 class="waitlist-title">Buď prvý.<br>Nezmeškaj launch.</h2>
+  <p class="waitlist-sub">Zaregistruj svoj email a dostaneš notifikáciu hneď ako spustíme predaj. Žiadny spam — iba jeden email, keď odštartujeme.</p>
+  <div class="waitlist-form">
+    <input class="waitlist-input" type="email" id="emailInput" placeholder="tvoj@email.com" autocomplete="email">
+    <button class="waitlist-btn" onclick="submitWaitlist()">Chcem vedieť</button>
+  </div>
+  <div class="success-msg" id="successMsg">✓ &nbsp;Zaregistrovaný. Budeme ťa kontaktovať.</div>
+  <p class="waitlist-note">Žiadny spam. Odhlásenie jedným klikom.</p>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-wrapper reveal" id="contact">
+
+  <div class="footer-socials">
+    <span class="footer-socials-label">Sleduj nás na sociálnych sieťach</span>
+
+    <div class="footer-socials-grid">
+
+      <a href="https://www.instagram.com/mambanoirsk" target="_blank" class="footer-social-btn">
+	    <svg viewBox="0 0 24 24" fill="currentColor">
+		  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.75 2.25a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+	    </svg>
+	    <span>Instagram</span>
+	  </a>
+
+      <a href="https://www.tiktok.com/@mambanoirsk" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+        </svg>
+        <span>TikTok</span>
+      </a>
+
+      <a href="https://www.facebook.com/profile.php?id=61577462356881" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        <span>Facebook</span>
+      </a>
+
+      <a href="https://www.youtube.com/channel/UCZAGfc9f_-p97GtAKVr9IrA" target="_blank" class="footer-social-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
+        <span>YouTube</span>
+      </a>
+
+    </div>
+  </div>
+
+
+  <div class="footer-main">
+
+    <div>
+      <span class="footer-brand-name">MAMBANOIR</span>
+
+      <p class="footer-brand-desc">
+        Prémiové fitness oblečenie z prstencovej bavlny pre ľudí,
+        ktorí to myslia vážne. Žiadna syntetika. Žiadne kompromisy.
+      </p>
+
+      <span class="footer-brand-slogan">
+        Strike Hard, Strike Fast.
+      </span>
+    </div>
+
+
+    <div>
+      <p class="footer-col-title">Stránka</p>
+
+      <ul class="footer-nav-list">
+        <li><a href="#home">Úvod</a></li>
+        <li><a href="#about">O nás</a></li>
+        <li><a href="#products">Produkty</a></li>
+        <li><a href="#waitlist">Waitlist</a></li>
+      </ul>
+    </div>
+
+
+    <div>
+      <p class="footer-col-title">Siete</p>
+
+      <ul class="footer-nav-list">
+        <li><a href="https://www.instagram.com/mambanoirsk" target="_blank">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@mambanoirsk" target="_blank">TikTok</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61577462356881" target="_blank">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCZAGfc9f_-p97GtAKVr9IrA" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+
+
+    <div>
+	  <p class="footer-col-title">Kontakt</p>
+
+	  <!-- <a href="#" onclick="openLegalModal('Kontaktný e-mail'); return false;" class="footer-contact-email"> 
+		info@mambanoir.sk
+	  </a> -->
+	  
+	  <a href="mailto:info@mambanoir.sk" class="footer-contact-email">
+        info@mambanoir.sk
+      </a>
+
+	  <p class="footer-contact-note">
+		Odpovieme do 24 hodín.<br>
+		Slovenská republika.
+	  </p>
+	</div>
+	
+  </div>
+
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-bottom-left">
+      © <span id="current-year"></span> MAMBANOIR · Všetky práva vyhradené
+    </div>
+
+
+    <div class="footer-legal-links">
+      <a href="#" onclick="openLegalModal('Obchodné podmienky'); return false;">
+        Obchodné podmienky
+      </a>
+
+      <a href="#" onclick="openLegalModal('Ochrana osobných údajov'); return false;">
+        Ochrana osobných údajov
+      </a>
+
+      <a href="#" onclick="openLegalModal('Reklamačný poriadok'); return false;">
+        Reklamačný poriadok
+      </a>
+    </div>
+
+
+    <a href="https://mawebstudio.netlify.app/" target="_blank" rel="noopener noreferrer" class="footer-bottom-right">
+	  Site by <span>Maroš Herman</span>
+	</a>
+
+  </div>
+
+</footer>
+
+
+<script>
+    // --- 1. KONFIGURÁCIA VLAJIEK ---
+    const languageFlags = {
+        'fr': '🇫🇷',
+        'sk': '🇸🇰',
+        'en': '🇬🇧',
+        'it': '🇮🇹',
+        'de': '🇩🇪',
+        'es': '🇪🇸'
+    };
+	
+    // --- 2. INICIALIZÁCIA PRI NAČÍTANÍ ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Téma (Light/Dark Mode)
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const sunIcon = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+        const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-mode');
+            if (themeIcon) themeIcon.innerHTML = sunIcon;
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                if (themeIcon) themeIcon.innerHTML = isLight ? sunIcon : moonIcon;
+            });
+        }
+
+        // Nastavenie roku
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Scroll reveal animácie
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+		
+		
+		
+        // DÔLEŽITÉ: Nastavenie správnej vlajky podľa priečinka
+        initLanguageUI();
+    });
+
+    // --- 3. JAZYKOVÉ FUNKCIE ---
+    function initLanguageUI() {
+        const path = window.location.pathname;
+        let currentLang = 'sk'; // Predvolený
+
+        // Detekcia podľa priečinka v ceste (funguje aj lokálne)
+        if (path.includes('/fr/')) currentLang = 'fr';
+        else if (path.includes('/en/')) currentLang = 'en';
+        else if (path.includes('/it/')) currentLang = 'it';
+        else if (path.includes('/de/')) currentLang = 'de';
+        else if (path.includes('/es/')) currentLang = 'es';
+        else currentLang = 'sk';
+
+        // Tuto sa zvolený jazyk ukladá do pamäte, aby sme vedeli, kde sme
+        localStorage.setItem('selectedLanguage', currentLang);
+
+        // Aktualizácia vlajky na webe
+        const flag = document.getElementById('langFlag');
+        if (flag) flag.textContent = languageFlags[currentLang];
+        
+        // Označenie aktívnej možnosti v dropdown menu
+        document.querySelectorAll('.lang-option').forEach(option => {
+            if (option.getAttribute('data-lang') === currentLang) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+
+    function toggleLangDropdown() {
+        const dropdown = document.getElementById('langDropdown');
+        const toggle = document.getElementById('langToggle');
+        if (!dropdown || !toggle) return;
+        
+        dropdown.classList.toggle('active');
+        toggle.classList.toggle('active');
+        
+        const closeDropdown = (e) => {
+            if (!e.target.closest('.lang-selector')) {
+                dropdown.classList.remove('active');
+                toggle.classList.remove('active');
+                document.removeEventListener('click', closeDropdown);
+            }
+        };
+        document.addEventListener('click', closeDropdown);
+    }
+
+    function switchLanguage(lang, event) {
+        // Tu nevoláme event.preventDefault(), aby prehliadač mohol prejsť na odkaz v href
+        localStorage.setItem('selectedLanguage', lang);
+    }
+
+    // Prepojenie pre mobilné menu (onclick="changeLanguage")
+    const changeLanguage = switchLanguage;
+
+    // --- 4. OSTATNÉ FUNKCIE (Menu, Waitlist) ---
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.getElementById('hamburger');
+        if (!menu || !btn) return;
+        menu.classList.toggle('open');
+        btn.classList.toggle('open');
+        document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.getElementById('hamburger');
+        if (!menu || !btn) return;
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function submitWaitlist() {
+        const input = document.getElementById('emailInput');
+        const msg = document.getElementById('successMsg');
+        if (!input || !msg) return;
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!re.test(input.value)) {
+            input.style.borderColor = '#ff5050';
+            setTimeout(() => { input.style.borderColor = ''; }, 1500);
+            return;
+        }
+
+        // Odoslanie emailu cez vlastný PHP skript na hostingu (send-email.php)
+        const formData = new FormData();
+        formData.append('email', input.value);
+        fetch('send-email.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        input.parentElement.style.display = 'none';
+        msg.style.display = 'block';
+    }
+</script>
+
+<div id="legalModal" class="legal-modal">
+  <div class="legal-modal-content">
+    <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+    <div id="legalModalTitle" class="legal-modal-title"></div>
+    <div id="legalModalBody" class="legal-modal-body">
+      Na obsahu momentálne pracujeme. Sekcia bude plne dostupná pri oficiálnom spustení e-shopu.
+    </div>
+  </div>
+</div>
+
+<script>
+function openLegalModal(titleText) {
+  const modal = document.getElementById('legalModal');
+  const titleEl = document.getElementById('legalModalTitle');
+  
+  if (modal && titleEl) {
+    titleEl.innerText = titleText; // Nastaví nadpis podľa toho, na čo sa kliklo
+    modal.classList.add('active'); // Zobrazí okno s plynulým prechodom
+    document.body.style.overflow = 'hidden'; // Zamedzí scrollovaniu landing page na pozadí
+  }
+}
+
+function closeLegalModal() {
+  const modal = document.getElementById('legalModal');
+  if (modal) {
+    modal.classList.remove('active'); // Skryje okno
+    document.body.style.overflow = ''; // Vráti scrollovanie webu späť
+  }
+}
+
+// Zavrie okno v prípade, ak sa spraví klik kamkoľvek mimo karty s textom (na tmavé pozadie)
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('legalModal');
+  if (event.target === modal) {
+    closeLegalModal();
+  }
+});
+</script>
+
+</body>
+</html>
